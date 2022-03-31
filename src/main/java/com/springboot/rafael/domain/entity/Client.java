@@ -11,6 +11,9 @@ public class Client {
     @Column(name = "name", length = 100)
     private String name;
 
+    public Client() {
+    }
+
     public Client(String name) {
         this.name = name;
     }

@@ -26,26 +26,26 @@ public class VendasApplication {
             clients.save(client);
             clients.save(client1);
 
-//            List<Client> clientsList = clients.getAll();
-//            clientsList.forEach(System.out::println);
+            List<Client> clientsList = clients.getAll();
+            clientsList.forEach(System.out::println);
 
-//            clients.delete("1");
-//            System.out.println("Após deletar");
-//            clientsList = clients.getAll();
-//
-//            clientsList.forEach(System.out::println);
-//
-//            List<Client> clientsByName = clients.getByName(client.getName());
-//            System.out.println("Por nome");
-//            clientsByName.forEach(System.out::println);
-//
-//            client1.setName("Teste de update");
-//            client1.setId(2);
-//            clients.update(client1);
-//            System.out.println("Após atualizar nome");
-//            clientsList = clients.getAll();
-//
-//            clientsList.forEach(System.out::println);
+            clients.delete(client);
+            System.out.println("Após deletar");
+            clientsList = clients.getAll();
+
+            clientsList.forEach(System.out::println);
+
+            List<Client> clientsByName = clients.getByName(client.getName());
+            System.out.println("Por nome");
+            clientsByName.forEach(System.out::println);
+
+            client1.setName("Teste de update");
+            client1.setId(2);
+            clients.update(client1);
+            System.out.println("Após atualizar nome");
+            clientsList = clients.getAll();
+
+            clientsList.forEach(System.out::println);
 
 
         };

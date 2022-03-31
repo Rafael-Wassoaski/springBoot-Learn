@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -40,6 +41,28 @@ public class Clients {
         entityManager.merge(client);
 
         return client;
+    }
+
+    @Transactional
+    public void delete(Client client) {
+        if (!entityManager.contains(client)) {
+            client = entityManager.merge(client);
+        }
+
+        entityManager.remove(client);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Client> getByName(String name) {
+        String jpql = "select c from Client c where c.name like :name";
+        TypedQuery<Client> query = entityManager.createQuery(jpql, Client.class);
+        List<Client> clientList = query.setParameter("name", "%" + name + "%").getResultList();
+        return clientList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Client> getAll() {
+        return entityManager.createQuery("from Client", Client.class).getResultList();
     }
 //Using JDCBTemplate samples
 //    public Client update(Client client) {
