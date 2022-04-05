@@ -1,9 +1,20 @@
 package com.springboot.rafael.domain.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class ItemPurchase {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @ManyToOne
+    @JoinColumn(name = "PURCHASE_ID")
     private Purchase purchaseId;
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID")
     private Product productId;
+    @Column
     private Integer amount;
 
     public Integer getId() {

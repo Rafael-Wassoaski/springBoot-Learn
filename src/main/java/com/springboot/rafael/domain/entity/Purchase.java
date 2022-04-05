@@ -1,11 +1,26 @@
 package com.springboot.rafael.domain.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
+@Entity
+@Table
 public class Purchase {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @ManyToOne
+    @JoinColumn(name = "CLIENT_ID")
     private Client client;
+    @Column
+    private LocalDate datePurchase;
+    @Column(precision = 20, scale = 2)
+    private BigDecimal total;
+
+    @OneToMany(mappedBy = "purchaseId")
+    private List<ItemPurchase> itemPurchases;
 
     public Integer getId() {
         return id;
@@ -39,7 +54,12 @@ public class Purchase {
         this.total = total;
     }
 
-    private LocalDate datePurchase;
-    private BigDecimal total;
+    public List<ItemPurchase> getItemPurchases() {
+        return itemPurchases;
+    }
+
+    public void setItemPurchases(List<ItemPurchase> itemPurchases) {
+        this.itemPurchases = itemPurchases;
+    }
 
 }

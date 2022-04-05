@@ -1,6 +1,7 @@
 package com.springboot.rafael.domain.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table
@@ -10,6 +11,8 @@ public class Client {
     private Integer id;
     @Column(name = "name", length = 100)
     private String name;
+    @OneToMany(mappedBy = "client")
+    private Set<Purchase> purchases;
 
     public Client() {
     }
@@ -38,6 +41,15 @@ public class Client {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Set<Purchase> getPurchases() {
+        return purchases;
+    }
+
+    public void setPurchases(Set<Purchase> purchases) {
+        this.purchases = purchases;
+    }
+
 
     @Override
     public String toString() {

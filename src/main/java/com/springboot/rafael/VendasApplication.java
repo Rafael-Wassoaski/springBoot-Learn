@@ -1,7 +1,7 @@
 package com.springboot.rafael;
 
 import com.springboot.rafael.domain.entity.Client;
-import com.springboot.rafael.domain.repositories.Clients;
+import com.springboot.rafael.domain.repository.Clients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,24 +26,24 @@ public class VendasApplication {
             clients.save(client);
             clients.save(client1);
 
-            List<Client> clientsList = clients.getAll();
+            List<Client> clientsList = clients.findAll();
             clientsList.forEach(System.out::println);
 
             clients.delete(client);
             System.out.println("Após deletar");
-            clientsList = clients.getAll();
+            clientsList = clients.findAll();
 
             clientsList.forEach(System.out::println);
 
-            List<Client> clientsByName = clients.getByName(client.getName());
+            List<Client> clientsByName = clients.buscaporNomeSql(client1.getName());
             System.out.println("Por nome");
             clientsByName.forEach(System.out::println);
 
             client1.setName("Teste de update");
             client1.setId(2);
-            clients.update(client1);
+            clients.save(client1);
             System.out.println("Após atualizar nome");
-            clientsList = clients.getAll();
+            clientsList = clients.findAll();
 
             clientsList.forEach(System.out::println);
 
