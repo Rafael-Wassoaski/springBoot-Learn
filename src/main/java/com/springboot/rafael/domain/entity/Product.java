@@ -14,6 +14,19 @@ public class Product {
     @Column(precision = 20, scale = 2)
     private BigDecimal price;
 
+    public Product(String description, BigDecimal price) {
+        this.description = description;
+        this.price = price;
+    }
+
+    public Product(){}
+
+    public Product(Integer id, String description, BigDecimal price) {
+        this.id = id;
+        this.description = description;
+        this.price = price;
+    }
+
     public Integer getId() {
         return id;
     }
