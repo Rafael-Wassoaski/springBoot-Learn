@@ -2,14 +2,20 @@ package com.springboot.rafael.domain.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.ToString;
+
 @Entity
 @Table
+@ToString
 public class ItemPurchase {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "PURCHASE_ID")
+    @JoinColumn(name = "purchaseId")
     private Purchase purchaseId;
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")

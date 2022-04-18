@@ -22,6 +22,7 @@ public class ProductController {
     public List<Product> find(Product fitro) {
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
         Example example = Example.of(fitro, matcher);
+        
         return products.findAll(example);
     }
 

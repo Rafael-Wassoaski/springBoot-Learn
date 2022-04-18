@@ -20,7 +20,7 @@ public class Purchase {
     private BigDecimal total;
 
     @OneToMany(mappedBy = "purchaseId")
-    private List<ItemPurchase> itemPurchases;
+    private List<ItemPurchase> item;
 
     public Integer getId() {
         return id;
@@ -55,11 +55,11 @@ public class Purchase {
     }
 
     public List<ItemPurchase> getItemPurchases() {
-        return itemPurchases;
+        return item;
     }
 
     public void setItemPurchases(List<ItemPurchase> itemPurchases) {
-        this.itemPurchases = itemPurchases;
+        this.item = itemPurchases;
     }
 
 }

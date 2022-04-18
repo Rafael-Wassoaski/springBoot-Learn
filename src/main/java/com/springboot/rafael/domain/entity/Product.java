@@ -1,8 +1,18 @@
 package com.springboot.rafael.domain.entity;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table
 public class Product {
@@ -16,38 +26,6 @@ public class Product {
 
     public Product(String description, BigDecimal price) {
         this.description = description;
-        this.price = price;
-    }
-
-    public Product(){}
-
-    public Product(Integer id, String description, BigDecimal price) {
-        this.id = id;
-        this.description = description;
-        this.price = price;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }
