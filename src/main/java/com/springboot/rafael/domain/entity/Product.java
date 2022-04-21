@@ -28,4 +28,11 @@ public class Product {
         this.description = description;
         this.price = price;
     }
+
+    public Object getId() {
+        return null;
+    }
+
+    public void setId(Object id2) {
+    }
 }

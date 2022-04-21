@@ -1,6 +1,9 @@
 package com.springboot.rafael.domain.entity;
 
 import javax.persistence.*;
+
+import com.springboot.rafael.domain.enums.StatusPedido;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,19 +14,33 @@ public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    
     @ManyToOne
     @JoinColumn(name = "CLIENT_ID")
     private Client client;
+    
     @Column
     private LocalDate datePurchase;
+    
     @Column(precision = 20, scale = 2)
     private BigDecimal total;
 
     @OneToMany(mappedBy = "purchaseId")
     private List<ItemPurchase> item;
+    
+    @Enumerated(EnumType.STRING)
+    private StatusPedido status;
 
     public Integer getId() {
         return id;
+    }
+    
+    public void setStatus(StatusPedido status) {
+    	this.status = status;
+    }
+    
+    public StatusPedido getStatus() {
+    	return this.status;
     }
 
     public void setId(Integer id) {

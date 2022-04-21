@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.springboot.rafael.exception.PurchaseNotFoundException;
 import com.springboot.rafael.exception.RuleException;
 
 @RestControllerAdvice
@@ -18,5 +19,11 @@ public class ApplicationControllerAdvice {
 		String errMessage = ex.getMessage();
 		
 		return new APIErrors(errMessage);
+	}
+	
+	@ExceptionHandler(PurchaseNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	private APIErrors handlePurchaseNotFoundException(PurchaseNotFoundException ex) {
+		return new APIErrors(ex.getMessage());
 	}
 }

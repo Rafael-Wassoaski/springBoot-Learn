@@ -7,18 +7,23 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.springboot.rafael.domain.entity.Client;
 import com.springboot.rafael.domain.entity.ItemPurchase;
 import com.springboot.rafael.domain.entity.Product;
 import com.springboot.rafael.domain.entity.Purchase;
+import com.springboot.rafael.domain.enums.StatusPedido;
 import com.springboot.rafael.domain.repository.Clients;
 import com.springboot.rafael.domain.repository.ItensPurchase;
 import com.springboot.rafael.domain.repository.Products;
 import com.springboot.rafael.domain.repository.Purchases;
 import com.springboot.rafael.dto.ItensPurchaseDTO;
 import com.springboot.rafael.dto.PurchaseDTO;
+import com.springboot.rafael.dto.UpdatePurchaseStatusDTO;
+import com.springboot.rafael.exception.PurchaseNotFoundException;
 import com.springboot.rafael.exception.RuleException;
 import com.springboot.rafael.service.PurchasesService;
 
@@ -44,9 +49,10 @@ public class PurchaseServiceImplementation implements PurchasesService {
 		purchase.setTotal(purchaseDTO.getTotal());
 		purchase.setDatePurchase(LocalDate.now());
 		purchase.setClient(client);
+		purchase.setStatus(StatusPedido.REALIZADO);
 				
 		List<ItemPurchase> purchaseItems = convertPurchaseItens(purchase, purchaseDTO.getItemPurchases());
-		System.out.println(purchaseItems.get(0).toString());
+
 		itensPurchase.saveAll(purchaseItems);
 		purchases.save(purchase);
 
@@ -85,6 +91,18 @@ public class PurchaseServiceImplementation implements PurchasesService {
 		// TODO Auto-generated method stub
 		return purchases.findByIdFetchItems(id);
 	}
-
 	
+	@Override
+	public void cancel(StatusPedido statusPedido, Integer id) {
+		Optional<Purchase> purchaseFound = purchases.findById(id);
+		
+		if(!purchaseFound.isPresent()) {
+			throw new PurchaseNotFoundException("Compra com esse id não existe: " + id);
+		}
+		
+		Purchase purchase = purchaseFound.get();
+		
+		purchase.setStatus(statusPedido);
+		purchases.save(purchase);	
+	}
 }
