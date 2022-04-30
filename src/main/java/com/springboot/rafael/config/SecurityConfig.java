@@ -1,5 +1,7 @@
 package com.springboot.rafael.config;
 
+import com.springboot.rafael.security.JWTAuthFilter;
+import com.springboot.rafael.security.JWTService;
 import com.springboot.rafael.service.implementation.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,14 +10,25 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserServiceImplementation userService;
+    @Autowired
+    private JWTService jwtService;
+    @Autowired
+    private UserServiceImplementation serviceImplementation;
+
+    @Bean
+    public JWTAuthFilter fAuthFilter(){
+        return new JWTAuthFilter(jwtService, serviceImplementation);
+    }
 
     @Bean
     public PasswordEncoder encoder() {
@@ -40,9 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/users/**")
                     .permitAll()
-                .anyRequest()
-                    .authenticated()
+                // .anyRequest()
+                //     .authenticated()
             .and()
-                .httpBasic();
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .addFilterBefore(this.fAuthFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

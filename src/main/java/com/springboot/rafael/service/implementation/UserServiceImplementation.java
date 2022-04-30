@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import com.springboot.rafael.domain.entity.CustomUser;
 import com.springboot.rafael.domain.repository.UserRepo;
+import com.springboot.rafael.exception.InvalidPasswordException;
 import com.springboot.rafael.exception.RuleException;
 
 @Service
@@ -40,6 +41,19 @@ public class UserServiceImplementation implements UserDetailsService {
         user.setPassword(encodedPassword);
 
         return userRepo.save(user);
+    }
+
+    public UserDetails authenticate(CustomUser user){
+        UserDetails userDetails = loadUserByUsername(user.getUsername());
+
+        boolean isSamePassword = this.encoder.matches(user.getPassword(), userDetails.getPassword());
+
+        if(isSamePassword){
+            return userDetails;
+        }
+
+        throw new InvalidPasswordException();
+
     }
 
 }
