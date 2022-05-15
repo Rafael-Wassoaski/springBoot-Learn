@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class ItemPurchase {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     @JsonIgnore
