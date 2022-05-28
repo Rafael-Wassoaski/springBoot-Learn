@@ -1,35 +1,31 @@
 package com.springboot.rafael;
 
+import com.springboot.rafael.domain.entity.Client;
+import com.springboot.rafael.domain.entity.Product;
+import com.springboot.rafael.domain.repository.Clients;
+import com.springboot.rafael.domain.repository.Products;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
 
 @SpringBootApplication
 @RestController
-public class VendasApplication {
-
-    @Gato
-    private Animal animal;
-
+public class VendasApplication extends SpringBootServletInitializer{
     @Bean
-    public CommandLineRunner runner(){
+    public CommandLineRunner commandLineRunner(@Autowired Clients clients, @Autowired Products products){
         return args -> {
-            this.animal.fazerBarulho();
+            Client client = new Client("Rafael");
+            Product product = new Product("Teste", new BigDecimal("1.25"));
+
+            products.save(product);
+            clients.save(client);
         };
-    }
-
-    @Value("${application.name}")
-    private String applicationName;
-
-    @GetMapping("/hello")
-    public String olaMundo() {
-        return "ola mundo " + applicationName;
     }
 
     public static void main(String[] args) {
